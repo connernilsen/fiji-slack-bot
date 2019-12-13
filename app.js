@@ -24,6 +24,7 @@ app.post('/', (req, res) => {
 
   if (req.body.event.type === "message") {
     req.body.event.type = "app_mention";
+    console.log('test');
   }
 
   // respond to app mention
