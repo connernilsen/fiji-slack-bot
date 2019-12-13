@@ -21,7 +21,6 @@ app.post('/corrupt', (req, res) => {
   //console.log(req.body);
   res.send();
   var user = req.body["user_id"];
-  console.log(user);
   var userInfo = getUserInfo(user);
   console.log(userInfo);
 
@@ -59,7 +58,9 @@ function getUserInfo(userID) {
   let json;
   fetch(url)
     .then((res) => res.json())
+    .then((json) => console.log(json))
     .catch((err) => console.err(err));
+  console.log("1! " + json);
 
   return json;
 }
