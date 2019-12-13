@@ -17,33 +17,24 @@ app.post('/', (req, res) => {
 
 app.post('/corrupt', (req, res) => {
   console.log(req.body);
-  //res.send();
+  res.send();
 
   var answer = { 
-    blocks: [ 
-      {
-        type: "section",  
-        text: {
-          response_type: "in_channel",
-          type: "mrkdwn",
-          text: "*" + zalgo.summon()(req.body["text"]) + "*"
-        }
-      }
-    ]
+    type: "mrkdwn",
+    text: "*" + zalgo.summon()(req.body["text"]) + "*"
   };
-  res.send(answer);
 
-//  var response = {
-//    method: "POST",
-//    headers: { "Content-Type": "application/json" },
-//    body: JSON.stringify(answer)
-//  };
-//
-//  fetch(req.body["response_url"], response)
-//    .then((res) => {
-//      console.log("Code: " + res.json().statusCode);
-//    })
-//    .catch((err) => console.err(err));
+  var response = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(answer)
+  };
+
+  fetch(req.body["response_url"], response)
+    .then((res) => {
+      console.log("Code: " + res.json().statusCode);
+    })
+    .catch((err) => console.err(err));
 });
 
 app.listen(process.env.PORT, () => { console.log("Server started") });
