@@ -20,15 +20,14 @@ app.get('/', (req, res) => {
 
 // handle app events
 app.post('/', (req, res) => {
-  console.log(req.body);
-
+  console.log(req);
   res.send();
 
   if (req.body.event.type === "app_mention") {
     var text = req.body.event.text;
     console.log(text);
 
-    if (!text.contains(my_id)) {
+    if (!text.includes(my_id)) {
       return;
     }
 
