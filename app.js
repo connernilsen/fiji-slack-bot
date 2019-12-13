@@ -16,7 +16,7 @@ app.post('/', (req, res) => {
 app.post('/corrupt', (req, res) => {
   res.send();
   console.log(req.body);
-  console.log(zalgo.zalgo(req.body["text"]));
+  console.log(zalgo.summon()(req.body["text"]));
 
   var answer = { 
     blocks: [ 
@@ -25,7 +25,7 @@ app.post('/corrupt', (req, res) => {
         text: {
           response_type: "in_channel",
           type: "mrkdwn",
-          text: "*" + zalgo.zalgo(req.body["text"]) + "*"
+          text: "*" + zalgo.summon()(req.body["text"]) + "*"
         }
       }
     ]
