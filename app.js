@@ -22,9 +22,13 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
   res.send();
 
+  var dm = false;
   var treatAsMention = false;
+
+  // respond to direct message
   if (req.body.event.type === "message") {
     treatAsMention = true;
+    dm = true;
   }
 
   // respond to app mention
@@ -34,7 +38,7 @@ app.post('/', (req, res) => {
     console.log(text);
 
     // continue only if bot is mentioned
-    if (!text.includes(my_id)) {
+    if (!text.includes(my_id) || dm) {
       return;
     }
 
