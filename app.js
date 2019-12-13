@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const zalgo = require('zalgo-js');
-const axios = require('axios');
+const fetch = require('node-fetch');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -32,12 +32,10 @@ app.post('/corrupt', (req, res) => {
     ]
   };
 
-  axios.post(req.body["response_url"], answer)
+  fetch(req.body["response_url"], { method: "POST", headers: { Content-Type: 
+    "application/json", body: answer })
     .then((res) => {
-      console.log("Code: " + res.statusCode);
-    })
-    .catch((error) => {
-      console.error(error);
+      console.log("Code: " + res.json().statusCode);
     });
 });
 
