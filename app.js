@@ -6,4 +6,9 @@ app.get('/', (req, res) => {
   res.send("Success");
 });
 
+app.post('/', (req, res) => {
+  console.log("Request received" + req.toString());
+  res.send("Success");
+});
+
 app.listen(process.env.PORT, () => { console.log("Server started") });
