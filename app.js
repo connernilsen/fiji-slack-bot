@@ -22,6 +22,10 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
   res.send();
 
+  if (req.body.event.type === "message.im") {
+    console.log(req.body);
+  }
+
   // respond to app mention
   if (req.body.event.type === "app_mention") {
     var text = req.body.event.text;
@@ -49,6 +53,8 @@ app.post('/', (req, res) => {
       post(res, hook);
     }, 2000);
   }
+
+
 });
 
 // corrupt function
