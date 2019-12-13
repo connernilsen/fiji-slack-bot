@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const zalgo = require('zalgo-js');
+const axios = require('axios');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -18,21 +19,20 @@ app.post('/corrupt', (req, res) => {
   console.log(req.body);
   res.send();
 
-//  var answer = { 
-//    blocks: [ 
-//      {
-//        type: "section",  
-//        text: {
-//          response_type: "in_channel",
-//          type: "mrkdwn",
-//          text: "*" + zalgo.summon()(req.body["text"]) + "*"
-//        }
-//      }
-//    ]
-//  };
-//
-//  res.type("application/json");
-//  res.send(answer);
+  var answer = { 
+    blocks: [ 
+      {
+        type: "section",  
+        text: {
+          response_type: "in_channel",
+          type: "mrkdwn",
+          text: "*" + zalgo.summon()(req.body["text"]) + "*"
+        }
+      }
+    ]
+  };
+
+  axios.post(req["response_url"], answer);
 });
 
 app.listen(process.env.PORT, () => { console.log("Server started") });
