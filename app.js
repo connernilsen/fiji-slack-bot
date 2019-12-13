@@ -61,6 +61,7 @@ app.post('/corrupt', (req, res) => {
 
 // expand specified text
 app.post('/space', (req, res) => {
+  console.log(req.body);
   // send default response and get userID
   res.send();
   var user = req.body["user_id"];
@@ -188,11 +189,13 @@ function postAsUser(userJson, req, text) {
     username: userJson["user"]["real_name"]
   };
 
-  post(res);
+  var hook = (channel, timestamp) => addReacts(channel, timestamp);
+
+  post(res, hook);
 }
 
 // function to send messages with
-function post(res) {
+function post(res, hook = null) {
   // response to post with
   var response = {
     method: "POST",
@@ -205,7 +208,12 @@ function post(res) {
 
   // post message
   fetch("https://slack.com/api/chat.postMessage", response)
-    .catch((err) => console.err(err));
+    .then((res) => {
+      if (hook != null) {
+        hook(res);
+      }
+    })
+    .catch((err) => console.log(err));
 }
 
 // get given user's info
@@ -216,6 +224,41 @@ function getUserInfo(userID, func) {
   fetch(url)
     .then((res) => json = res.json())
     .then((json) => func(json))
+    .catch((err) => console.log(err));
+}
+
+function addReacts(channel, timestamp) {
+  var reactAdd = "https://slack.com/api/reactions.add";
+  var emojiList = `https://slack.com/api/emoji.list?token=${token}`;
+  
+  fetch(emojiList)
+    .then((res) => res.json())
+    .then((json => {
+      var emojis = Object.keys(json["emoji"]);
+
+      var body = {
+        token: token,
+        channel: channel,
+        timestamp: timestamp,
+        emoji: ""
+      }
+
+      for (i = 0; i < Math.floor(Math.random() * 5); i++) {
+        var emoji = emojis[Math.floor(Math.random() * emojis.length)];
+        body["emoji"] = emoji;
+
+        var req = {
+          method: "POST",
+          headers: {
+            "Content-Type": "applications/json",
+          },
+          body: JSON.stringify(body)
+        }
+
+        fetch(reactAdd, req)
+          .catch((err) => console.log(err));
+      }
+    }))
     .catch((err) => console.log(err));
 }
 
