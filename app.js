@@ -21,6 +21,7 @@ app.post('/corrupt', (req, res) => {
   //console.log(req.body);
   res.send();
   var user = req.body["user_id"];
+  console.log(user);
   var userInfo = getUserInfo(user);
   console.log(userInfo);
 
@@ -48,19 +49,19 @@ app.post('/corrupt', (req, res) => {
   };
 
   fetch("https://slack.com/api/chat.postMessage", response)
-    .then((res) => {
-      console.log("Code: " + res.json().statusCode);
-    })
     .catch((err) => console.err(err));
 });
 
 function getUserInfo(userID) {
   var url = `https://slack.com/api/users.info?token=${token}&user=${userID}`;
+  console.log(url);
 
   let json;
   fetch(url)
     .then((res) => res.json())
     .catch((err) => console.err(err));
+
+  return json;
 }
 
 app.listen(process.env.PORT, () => { console.log("Server started") });
