@@ -21,7 +21,7 @@ app.post('/corrupt', (req, res) => {
 
   var answer = { 
     type: "mrkdwn",
-    text: "*" + zalgo.summon()(req.body["text"]) + "*"
+    text: "*" + zalgo.summon({intensity: 1})(req.body["text"]) + "*"
   };
 
   var response = {
