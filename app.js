@@ -16,8 +16,8 @@ app.post('/', (req, res) => {
 });
 
 app.post('/corrupt', (req, res) => {
-  //console.log(req.body);
-  res.send();
+  console.log(req.body);
+  //res.send();
 
   var answer = { 
     blocks: [ 
