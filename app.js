@@ -40,8 +40,12 @@ app.post('/', (req, res) => {
 
     // send message 2 seconds later
     setTimeout(() => {
-      res["text"] = "jk ily bby ;)",
-      post(res);
+      res["text"] = "jk ily bby ;)";
+      
+      var hook = (channel, timestamp) => {
+        addReact(channel, timestamp, "heart");
+      };
+      post(res, hook);
     }, 2000);
   }
 });
@@ -211,7 +215,7 @@ function postAsUser(userJson, req, text) {
     username: userJson["user"]["real_name"]
   };
 
-  var hook = (channel, timestamp) => addReacts(channel, timestamp);
+  var hook = (channel, timestamp) => addMultipleReacts(channel, timestamp);
 
   post(res, hook);
 }
@@ -251,7 +255,7 @@ function getUserInfo(userID, func) {
 }
 
 // randomly add reacts to recent post
-function addReacts(channel, timestamp) {
+function addMultipleReacts(channel, timestamp) {
   // set up urls
   var reactAdd = "https://slack.com/api/reactions.add";
   var emojiList = `https://slack.com/api/emoji.list?token=${token}`;
@@ -267,28 +271,35 @@ function addReacts(channel, timestamp) {
       for (i = 0; i < Math.floor(Math.random() * 5); i++) {
         // get random emoji
         var emoji = emojis[Math.floor(Math.random() * emojis.length)];
-        // create body
-        var body = {
-          channel: channel,
-          timestamp: timestamp,
-          name: emoji
-        }
 
-        // create request data
-        var req = {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token
-          },
-          body: JSON.stringify(body)
-        }
-
-        // post react
-        fetch(reactAdd, req)
-          .catch((err) => console.log(err));
+        // add reactions
+        addReact(channel, timestamp, emoji);
       }
     }))
+    .catch((err) => console.log(err));
+}
+
+// add a single react
+function addReact(channel, timestamp, emojiname) {
+  // create body
+  var body = {
+    channel: channel,
+    timestamp: timestamp,
+    name: emoji
+  }
+
+  // create request data
+  var req = {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token
+    },
+    body: JSON.stringify(body)
+  }
+
+  // post react
+  fetch(reactAdd, req)
     .catch((err) => console.log(err));
 }
 
