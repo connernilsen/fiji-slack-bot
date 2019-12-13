@@ -13,8 +13,7 @@ app.post('/', (req, res) => {
   res.send(req.body["challenge"]);
 });
 
-app.post('/corrput', (req, res) => {
-  console.log("TEST");
+app.post('/corrupt', (req, res) => {
   res.send();
   console.log(req.body);
   console.log(zalgo(req.body["text"]));
