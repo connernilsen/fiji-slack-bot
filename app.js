@@ -65,6 +65,48 @@ app.post('/corrupt', (req, res) => {
   });
 });
 
+app.post('/expand', (req, res) => {
+  res.send();
+  var user = req.body["user_id"];
+
+  getUserInfo(user, (userJson) => {
+    var text = req.body["text"].toUpperCase().trim();
+    
+    if (text.length == 0) {
+      return;
+    }
+
+    var expand = (str) => {
+      var ans = "";
+      var arr = str.split("");
+
+      for (i = 0; i < arr.length; i++) {
+        ans += ` ${arr[i]}`;
+      }
+      return ans;
+    }
+
+    var split = text.split("/");
+    var ans = split[0];
+    var tmp;
+
+    for (i = 1; i < split.length; i++) {
+      tmp = ans[i].split("\\");
+      ans += expand(tmp[0]);
+      ans += tmp[1];
+    }
+
+    var answer = {
+      text: "*" + ans + "*",
+      channel: req.body["channel_id"],
+      "icon_url": userJson["user"]["profile"]["image_24"],
+      username: userJson["user"]["real_name"]
+    };
+
+    post(answer);
+  });
+});
+
 // function to send messages with
 function post(res) {
   // response to post with
