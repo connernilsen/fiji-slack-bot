@@ -60,6 +60,8 @@ function getUserInfo(userID) {
     .then((res) => json = res.json())
     .catch((err) => console.err(err));
 
+  console.log(json);
+
   return json;
 }
 
