@@ -23,7 +23,6 @@ app.post('/', (req, res) => {
   res.send();
 
   if (req.body.event.type === "message") {
-    console.log(req.body);
     req.body.event.type = "app_mention";
   }
 
@@ -244,6 +243,7 @@ function post(res, hook = null) {
   fetch("https://slack.com/api/chat.postMessage", response)
     .then((res) => res.json())
     .then((json) => {
+      console.log(json);
       if (hook != null) {
         hook(json["channel"], json["ts"]);
       }
