@@ -14,7 +14,8 @@ app.post('/', (req, res) => {
 });
 
 app.post('/corrput', (req, res) => {
-  console.log(req.body["text"]);
+  res.send();
+  console.log(req.body);
   console.log(zalgo(req.body["text"]));
 
   var answer = { 
