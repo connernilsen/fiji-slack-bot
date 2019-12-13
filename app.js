@@ -128,6 +128,7 @@ function post(res) {
 // get given user's info
 function getUserInfo(userID, func) {
   var url = `https://slack.com/api/users.info?token=${token}&user=${userID}`;
+  console.log(url);
 
   // get info and pass into supplied function
   fetch(url)
