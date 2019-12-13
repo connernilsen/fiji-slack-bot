@@ -38,7 +38,7 @@ app.post('/corrupt', (req, res) => {
     method: "POST",
     headers: { 
       "Content-Type": "application/json",
-      Authorization: "Bearer " + req.body["token"]
+      Authorization: "Bearer xoxp-457909895632-457909897568-873858915351-6b583d276546766dcebee91832ad9913"
     },
     body: JSON.stringify(answer)
   };
