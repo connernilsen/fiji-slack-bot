@@ -19,9 +19,16 @@ app.post('/corrupt', (req, res) => {
   console.log(req.body);
   res.send();
 
+  var text = req.body["text"];
+  var intensity = 0.8;
+  if (text.length > 1 && isInteger(charAt(0))) {
+    intensity = valueOf(charAt(0)) / 10;
+    text = text.substring(1);
+  }
+
   var answer = { 
     type: "mrkdwn",
-    text: "*" + zalgo.summon({intensity: 1})(req.body["text"]) + "*"
+    text: "*" + zalgo.summon({intensity: intensity})(text) + "*"
   };
 
   var response = {
