@@ -32,7 +32,7 @@ app.post('/corrupt', (req, res) => {
     ]
   };
 
-  axios.post(req["response_url"], answer)
+  axios.post(req.body["response_url"], answer)
     .then((res) => {
       console.log("Code: " + res.statusCode);
     })
