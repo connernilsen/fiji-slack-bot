@@ -40,6 +40,7 @@ app.post('/', (req, res) => {
       }
       post(res);
     }, 2000);
+  }
 });
 
 // corrupt function
