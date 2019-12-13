@@ -16,7 +16,7 @@ app.post('/', (req, res) => {
 });
 
 app.post('/corrupt', (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
   res.send();
 
   var answer = { 
@@ -31,18 +31,19 @@ app.post('/corrupt', (req, res) => {
       }
     ]
   };
+  res.send(answer);
 
-  var response = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(answer)
-  };
-
-  fetch(req.body["response_url"], response)
-    .then((res) => {
-      console.log("Code: " + res.json().statusCode);
-    })
-    .catch((err) => console.err(err));
+//  var response = {
+//    method: "POST",
+//    headers: { "Content-Type": "application/json" },
+//    body: JSON.stringify(answer)
+//  };
+//
+//  fetch(req.body["response_url"], response)
+//    .then((res) => {
+//      console.log("Code: " + res.json().statusCode);
+//    })
+//    .catch((err) => console.err(err));
 });
 
 app.listen(process.env.PORT, () => { console.log("Server started") });
