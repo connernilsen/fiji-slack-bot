@@ -16,15 +16,20 @@ app.post('/', (req, res) => {
 app.post('/corrput', (req, res) => {
   console.log(req.body["text"]);
   console.log(zalgo(req.body["text"]));
-  answer = { 
-    "blocks": [ 
-      "type": "section",  
-      "text": {
-        "type": "mrkdwn",
-        "text": "*" + zalgo(req.body["text"]) + "*"
+
+  var answer = { 
+    blocks: [ 
+      {
+        type: "section",  
+        text: {
+          response_type: "in_channel",
+          type: "mrkdwn",
+          text: "*" + zalgo(req.body["text"]) + "*"
+        }
       }
     ]
-  }
+  };
+
   res.type("application/json");
   res.send(answer);
 });
