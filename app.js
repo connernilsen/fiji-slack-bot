@@ -81,7 +81,6 @@ app.post('/space', (req, res) => {
 
   // get calling user's info and send response
   getUserInfo(user, (userJson) => {
-    console.log(userJson);
     var text = req.body["text"].trim();
     //
     // don't run if empty
@@ -208,9 +207,10 @@ function post(res, hook = null) {
 
   // post message
   fetch("https://slack.com/api/chat.postMessage", response)
-    .then((res) => {
+    .then((res) => res.json())
+    .then((json) => {
       if (hook != null) {
-        hook(res);
+        hook(json["channel"], json["ts"]);
       }
     })
     .catch((err) => console.log(err));
@@ -227,34 +227,41 @@ function getUserInfo(userID, func) {
     .catch((err) => console.log(err));
 }
 
+// randomly add reacts to recent post
 function addReacts(channel, timestamp) {
+  // set up urls
   var reactAdd = "https://slack.com/api/reactions.add";
   var emojiList = `https://slack.com/api/emoji.list?token=${token}`;
-  
+
+  // get list of custom emojis and pass them to handler
   fetch(emojiList)
     .then((res) => res.json())
     .then((json => {
+      // extract emoji names from response
       var emojis = Object.keys(json["emoji"]);
 
-      var body = {
-        token: token,
-        channel: channel,
-        timestamp: timestamp,
-        emoji: ""
-      }
-
+      // loop through a random amount of times and add emojis
       for (i = 0; i < Math.floor(Math.random() * 5); i++) {
+        // get random emoji
         var emoji = emojis[Math.floor(Math.random() * emojis.length)];
-        body["emoji"] = emoji;
+        // create body
+        var body = {
+          channel: channel,
+          timestamp: timestamp,
+          name: emoji
+        }
 
+        // create request data
         var req = {
           method: "POST",
-          headers: {
-            "Content-Type": "applications/json",
+          headers: { 
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token
           },
           body: JSON.stringify(body)
         }
 
+        // post react
         fetch(reactAdd, req)
           .catch((err) => console.log(err));
       }
