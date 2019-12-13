@@ -2,10 +2,12 @@ const express = require('express');
 const app = express();
 const zalgo = require('zalgo-js');
 const fetch = require('node-fetch');
+const dotenv = require('dotenv');
+dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-const token = "xoxp-457909895632-457909897568-873858915351-6b583d276546766dcebee91832ad9913";
+const token = process.env.TOKEN;
 
 app.get('/', (req, res) => {
   console.log("Request received" + req.body);
@@ -43,7 +45,6 @@ app.post('/corrupt', (req, res) => {
 });
 
 function post(res) {
-
   var response = {
     method: "POST",
     headers: { 
@@ -67,5 +68,5 @@ function getUserInfo(userID, func) {
     .catch((err) => console.log(err));
 }
 
-app.listen(process.env.PORT, () => { console.log("Server started") });
-//app.listen(8081, () => { console.log("Server started") });
+app.listen(process.env.PORT, () => { console.log("Server started on port " + 
+  process.env.PORT) });
