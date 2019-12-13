@@ -21,22 +21,28 @@ app.post('/corrupt', (req, res) => {
   //console.log(req.body);
   res.send();
   var user = req.body["user_id"];
-  var userInfo = getUserInfo(user);
-  console.log(userInfo);
 
-  var text = req.body["text"];
-  var intensity = 0.3;
-  if (text.length > 1 && !isNaN(parseInt(text.charAt(0)))) {
-    intensity = parseInt(text.charAt(0)) / 10;
-    text = text.substring(1);
-  }
-  text = text.trim();
+  var userInfo = getUserInfo(user, (userJson) => {
+    var text = req.body["text"];
+    var intensity = 0.3;
+    if (text.length > 1 && !isNaN(parseInt(text.charAt(0)))) {
+      intensity = parseInt(text.charAt(0)) / 10;
+      text = text.substring(1);
+    }
+    text = text.trim();
 
-  var answer = { 
-    type: "mrkdwn",
-    text: "*" + zalgo.summon({intensity: intensity})(text) + "*",
-    channel: req.body["channel_id"]
-  };
+    var answer = { 
+      text: "*" + zalgo.summon({intensity: intensity})(text) + "*",
+      channel: req.body["channel_id"],
+      "icon_url": userJson["user"]["profile"]["image_24"],
+      username: userJson["user"]["name"]
+    };
+    
+    postAsUser(answer);
+  );
+  });
+
+function post(res) {
 
   var response = {
     method: "POST",
@@ -44,25 +50,21 @@ app.post('/corrupt', (req, res) => {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token
     },
-    body: JSON.stringify(answer)
+    body: JSON.stringify(res)
   };
 
   fetch("https://slack.com/api/chat.postMessage", response)
     .catch((err) => console.err(err));
-});
+}
 
-function getUserInfo(userID) {
+function getUserInfo(userID, func) {
   var url = `https://slack.com/api/users.info?token=${token}&user=${userID}`;
   console.log(url);
 
-  let json;
   fetch(url)
     .then((res) => json = res.json())
+    .then((json) => func(json))
     .catch((err) => console.err(err));
-
-  console.log(json);
-
-  return json;
 }
 
 app.listen(process.env.PORT, () => { console.log("Server started") });
