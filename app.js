@@ -30,17 +30,21 @@ app.post('/corrupt', (req, res) => {
   var answer = { 
     type: "mrkdwn",
     text: "*" + zalgo.summon({intensity: intensity})(text) + "*",
-    "as_user": true
+    "as_user": true,
+    channel: req.body["channel_id"]
   };
-  //res.send(answer);
 
   var response = {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { 
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + req.body["token"]
+    },
     body: JSON.stringify(answer)
   };
 
-  fetch(req.body["response_url"], response)
+  //fetch(req.body["response_url"], response)
+  fetch("https://slack.com/api/chat.postMessage", response)
     .then((res) => {
       console.log("Code: " + res.json().statusCode);
     })
