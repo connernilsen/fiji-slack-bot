@@ -42,6 +42,7 @@ app.post('/', (req, res) => {
     setTimeout(() => {
       res["text"] = "jk ily bby ;)";
       
+      // add heart react after mention
       var hook = (channel, timestamp) => {
         addReact(channel, timestamp, "heart");
       };
@@ -280,7 +281,7 @@ function addMultipleReacts(channel, timestamp) {
 }
 
 // add a single react
-function addReact(channel, timestamp, emojiname) {
+function addReact(channel, timestamp, emoji) {
   // create body
   var body = {
     channel: channel,
