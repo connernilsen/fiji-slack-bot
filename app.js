@@ -38,7 +38,7 @@ app.post('/corrupt', (req, res) => {
     })
     .catch((error) => {
       console.error(error);
-    }
+    });
 });
 
 app.listen(process.env.PORT, () => { console.log("Server started") });
