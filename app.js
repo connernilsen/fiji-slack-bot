@@ -40,7 +40,7 @@ app.post('/corrupt', (req, res) => {
     method: "POST",
     headers: { 
       "Content-Type": "application/json",
-      Authorization: 
+      Authorization: token
     },
     body: JSON.stringify(answer)
   };
