@@ -22,20 +22,23 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
   res.send();
 
+  // respond to app mention
   if (req.body.event.type === "app_mention") {
     var text = req.body.event.text;
 
+    // continue only if bot is mentioned
     if (!text.includes(my_id)) {
       return;
     }
 
-    console.log("HERE");
+    // create and send response
     var res = {
       text: "fuck you",
       channel: req.body["event"]["channel"]
     }
     post(res);
 
+    // send message 2 seconds later
     setTimeout(() => {
       res["text"] = "jk ily bby ;)",
       post(res);
@@ -229,7 +232,6 @@ function post(res, hook = null) {
   fetch("https://slack.com/api/chat.postMessage", response)
     .then((res) => res.json())
     .then((json) => {
-      console.log(json);
       if (hook != null) {
         hook(json["channel"], json["ts"]);
       }
