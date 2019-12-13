@@ -31,6 +31,8 @@ app.post('/', (req, res) => {
   if (req.body.event.type === "app_mention" || treatAsMention) {
     var text = req.body.event.text;
 
+    console.log('success');
+
     // continue only if bot is mentioned
     if (!text.includes(my_id)) {
       return;
