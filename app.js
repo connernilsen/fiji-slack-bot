@@ -20,11 +20,12 @@ app.post('/corrupt', (req, res) => {
   res.send();
 
   var text = req.body["text"];
-  var intensity = 0.8;
+  var intensity = 0.3;
   if (text.length > 1 && !isNaN(parseInt(text.charAt(0)))) {
     intensity = parseInt(text.charAt(0)) / 10;
     text = text.substring(1);
   }
+  text = text.trim();
 
   var answer = { 
     type: "mrkdwn",
