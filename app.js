@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 
 // handle app events
 app.post('/', (req, res) => {
-  console.log(req);
+  console.log(req.body);
   res.send();
 
   if (req.body.event.type === "app_mention") {
