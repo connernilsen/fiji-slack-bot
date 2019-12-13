@@ -20,7 +20,7 @@ app.post('/', (req, res) => {
 app.post('/corrupt', (req, res) => {
   //console.log(req.body);
   res.send();
-  var user = req.body["event"]["user"];
+  var user = req.body["event"];
   console.log(user);
   getUserInfo(user);
 
@@ -35,7 +35,6 @@ app.post('/corrupt', (req, res) => {
   var answer = { 
     type: "mrkdwn",
     text: "*" + zalgo.summon({intensity: intensity})(text) + "*",
-    "as_user": true,
     channel: req.body["channel_id"]
   };
 
