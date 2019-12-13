@@ -22,13 +22,13 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
   res.send();
 
+  var treatAsMention = false;
   if (req.body.event.type === "message") {
-    req.body.event.type = "app_mention";
-    console.log('test');
+    treatAsMention = true;
   }
 
   // respond to app mention
-  if (req.body.event.type === "app_mention") {
+  if (req.body.event.type === "app_mention" || treatAsMention) {
     var text = req.body.event.text;
 
     // continue only if bot is mentioned
