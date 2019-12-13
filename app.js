@@ -4,7 +4,7 @@ const zalgo = require('zalgo-js');
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  console.log("Request received" + req.toString());
+  console.log("Request received" + req.body);
   res.send("Success");
 });
 
@@ -14,9 +14,8 @@ app.post('/', (req, res) => {
 });
 
 app.post('/corrupt', (req, res) => {
-  res.send();
   console.log(req.body);
-  console.log(zalgo.summon()(req.body["text"]));
+  res.send();
 
 //  var answer = { 
 //    blocks: [ 
