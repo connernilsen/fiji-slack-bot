@@ -66,6 +66,7 @@ function getUserInfo(userID) {
       res.json();
     })
     .then((json) => {
+      console.log(json);
       return json;
     })
     .catch((err) => console.err(err));
