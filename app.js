@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
   console.log(req.body);
-  res.send("Success");
+  res.send(req.body["challenge"]);
 });
 
 app.listen(process.env.PORT, () => { console.log("Server started") });
