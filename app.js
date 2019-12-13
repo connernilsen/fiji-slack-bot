@@ -35,7 +35,7 @@ app.post('/corrupt', (req, res) => {
       text: "*" + zalgo.summon({intensity: intensity})(text) + "*",
       channel: req.body["channel_id"],
       "icon_url": userJson["user"]["profile"]["image_24"],
-      username: userJson["user"]["name"]
+      username: userJson["user"]["real_name"]
     };
 
     post(answer);
