@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+app.use(express.json());
 
 app.get('/', (req, res) => {
   console.log("Request received" + req.toString());
@@ -7,9 +8,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', (req, res) => {
-  console.log("");
   console.log(req.body);
-  console.log("");
   res.send("Success");
 });
 
