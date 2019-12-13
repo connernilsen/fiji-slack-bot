@@ -61,7 +61,6 @@ app.post('/corrupt', (req, res) => {
 
 // expand specified text
 app.post('/space', (req, res) => {
-  console.log(req.body);
   // send default response and get userID
   res.send();
   var user = req.body["user_id"];
@@ -82,6 +81,7 @@ app.post('/space', (req, res) => {
 
   // get calling user's info and send response
   getUserInfo(user, (userJson) => {
+    console.log(userJson);
     var text = req.body["text"].trim();
     //
     // don't run if empty
