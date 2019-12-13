@@ -22,8 +22,8 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
   res.send();
 
-  if (req.body.event.type === "message.im") {
     console.log(req.body);
+  if (req.body.event.type === "message.im") {
   }
 
   // respond to app mention
