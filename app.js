@@ -39,7 +39,10 @@ app.post('/corrupt', (req, res) => {
       intensity = parseInt(text.charAt(0)) / 10;
       text = text.substring(1);
     }
-    
+
+    // perform zalgo on text
+    var corrupt = (str) => zalgo.summon({intensity: intensity})(str);
+
     // remove trailing whitespace
     text = text.trim();
     
@@ -48,104 +51,145 @@ app.post('/corrupt', (req, res) => {
       return;
     }
 
-    // prepare response
-    var answer = { 
-      // text to show
-      text: "*" + zalgo.summon({intensity: intensity})(text) + "*",
-      // channel to post in
-      channel: req.body["channel_id"],
-      // user icon to use
-      "icon_url": userJson["user"]["profile"]["image_24"],
-      // user to impersonate
-      username: userJson["user"]["real_name"]
-    };
+    // perform between delimiters
+    var ans = performBetween(text, corrupt);
 
-    // send message
-    post(answer);
+    // post corrupted text
+    postAsUser(userJson, req, "*" + ans + "*");
   });
 });
 
 // expand specified text
-app.post('/expand', (req, res) => {
+app.post('/space', (req, res) => {
   // send default response and get userID
   res.send();
   var user = req.body["user_id"];
 
+  // function to expand string
+  var expand = (str) => {
+    var arr = str.toUpperCase().split("");
+    var ans = arr[0];
+
+    // loop through and append expanded letter
+    for (i = 1; i < arr.length; i++) {
+      if (arr[i] != " ") {
+        ans += ` ${arr[i]}`;
+      }
+    }
+    return ans;
+  };
+
   // get calling user's info and send response
   getUserInfo(user, (userJson) => {
     var text = req.body["text"].trim();
-    
+    //
     // don't run if empty
     if (text.length == 0) {
       return;
     }
 
-    // function to expand string
-    var expand = (str) => {
-      var arr = str.toUpperCase().split("");
-      var ans = arr[0];
+    // perform between delimiters
+    var ans = performBetween(text, expand);
 
-      // loop through and append expanded letter
-      for (i = 1; i < arr.length; i++) {
-        if (arr[i] != " ") {
-          ans += ` ${arr[i]}`;
-        }
-      }
-      return ans;
-    }
-
-    //initialize vars
-    var idx = text.indexOf("<");
-    var ans = "";
-    var tmp = "";
-    var end = -1;
-    
-    // loop through and greedily E X P A N D
-    while (idx != -1) {
-      // append non-selected text
-      ans += text.substring(0, idx);
-
-      // set end and expand through end
-      end = text.indexOf(">");
-      if (end != -1) {
-        tmp = text.substring(idx + 1, end);
-        ans += expand(tmp);
-      }
-      // if end not found, then expand rest of text
-      else {
-        tmp = text.substring(idx + 1);
-        ans += expand(tmp);
-      }
-
-      // set text to be the remaining text to check
-      if (end + 1 < text.length && end != -1) {
-        text = text.substring(end + 1);
-      }
-      // set to empty string if nothing left to expand
-      else {
-        text = "";
-      }
-
-      // get next selection
-      idx = text.indexOf("<");
-    }
-
-    // append remaining text if there is any
-    if (text.length > 0) {
-      ans += text;
-    }
-
-    // prepare answer
-    var answer = {
-      text: "*" + ans + "*",
-      channel: req.body["channel_id"],
-      "icon_url": userJson["user"]["profile"]["image_24"],
-      username: userJson["user"]["real_name"]
-    };
-
-    post(answer);
+    // post e x p a n d e d text
+    postAsUser(userJson, req, ans);
   });
 });
+
+// vertically expand specified text
+app.post("/vspace", (req, res) => {
+  // send default response and get userID
+  res.send();
+  var user = req.body["user_id"];
+
+  // function to expand string
+  var vexpand = (str) => {
+    var arr = str.toUpperCase().split("");
+    var ans = "";
+
+    // loop through and append expanded letter
+    for (i = 0; i < arr.length; i++) {
+      if (arr[i] != " ") {
+        ans += `\n${arr[i]}`;
+      }
+    }
+    ans += "\n";
+    return ans;
+  };
+
+  // get calling user's info and send response
+  getUserInfo(user, (userJson) => {
+    var text = req.body["text"].trim();
+
+    // don't run if empty
+    if (text.length == 0) {
+      return;
+    }
+
+    var ans = performBetween(text, vexpand);
+
+    postAsUser(userJson, req, ans);
+  });
+});
+
+// perform function between delimiter for text
+function performBetween(text, func, deliml = "<", delimr = ">") {
+  //initialize vars
+  var idx = text.indexOf(deliml);
+  var ans = "";
+  var tmp = "";
+  var end = -1;
+
+  // loop through and greedily E X P A N D
+  while (idx != -1) {
+    // append non-selected text
+    ans += text.substring(0, idx);
+
+    // set end and perform func through end
+    end = text.indexOf(delimr);
+    if (end != -1) {
+      tmp = text.substring(idx + 1, end);
+      ans += func(tmp);
+    }
+    // if end not found, then perform func on rest of text
+    else {
+      tmp = text.substring(idx + 1);
+      ans += func(tmp);
+    }
+
+    // set text to be the remaining text to check
+    if (end + 1 < text.length && end != -1) {
+      text = text.substring(end + 1);
+    }
+    // set to empty string if nothing left to perform func on
+    else {
+      text = "";
+    }
+
+    // get next selection
+    idx = text.indexOf(deliml);
+  }
+
+  // append remaining text if there is any
+  if (text.length > 0) {
+    ans += text;
+  }
+
+  return ans;
+}
+
+// make a post as user
+function postAsUser(userJson, req, text) {
+  // prepare answer
+  var res = {
+    text: text,
+    channel: req.body["channel_id"],
+    "icon_url": userJson["user"]["profile"]["image_24"],
+    username: userJson["user"]["real_name"]
+  };
+
+  post(res);
+}
 
 // function to send messages with
 function post(res) {
