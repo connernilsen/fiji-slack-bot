@@ -8,6 +8,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const token = process.env.TOKEN;
 const port = process.env.PORT;
+const my_id = process.env.BOTID;
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -25,12 +26,16 @@ app.post('/', (req, res) => {
 
   if (req.body.event.type === "app_mention") {
     var text = req.body.event.text;
+    console.log(text);
+
+    if (!text.contains(my_id)) {
+      return;
+    }
 
     var res = {
       text: "fuck you",
       channel: req.body["channel"]
     }
-
     post(res);
 
     setTimeout(() => {
