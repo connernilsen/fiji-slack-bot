@@ -4,9 +4,9 @@ A bot for the Northeastern FIJI Slack Channel
 
 ## Current and Future Functionality
 
-[x] Corrupt text using slash notation
-[] Expand text H O R I Z O N T A L L Y using slash notation
-[] Expand text V
+- [x] Corrupt text using slash notation
+- [ ] Expand text H O R I Z O N T A L L Y using slash notation
+- [ ] Expand text V
               E
               R
               T
@@ -16,4 +16,4 @@ A bot for the Northeastern FIJI Slack Channel
               L
               L
               Y using slash notation
-[] Parse sent messages 
+- [ ] Parse sent messages 
