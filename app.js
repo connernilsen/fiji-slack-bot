@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-const token = "Bearer xoxp-457909895632-457909897568-873858915351-6b583d276546766dcebee91832ad9913";
+const token = "xoxp-457909895632-457909897568-873858915351-6b583d276546766dcebee91832ad9913";
 
 app.get('/', (req, res) => {
   console.log("Request received" + req.body);
@@ -44,7 +44,7 @@ app.post('/corrupt', (req, res) => {
     method: "POST",
     headers: { 
       "Content-Type": "application/json",
-      Authorization: token
+      Authorization: "Bearer " + token
     },
     body: JSON.stringify(answer)
   };
