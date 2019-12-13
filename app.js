@@ -77,24 +77,25 @@ app.post('/expand', (req, res) => {
     }
 
     var expand = (str) => {
-      var ans = "";
       var arr = str.split("");
+      var ans = arr[0];
 
-      for (i = 0; i < arr.length; i++) {
+      for (i = 1; i < arr.length; i++) {
         ans += ` ${arr[i]}`;
       }
       return ans;
     }
 
-    var split = text.split("/");
-    var ans = split[0];
+    var sp = text.split("/");
+    var ans = sp[0];
     var tmp;
 
-    for (i = 1; i < split.length; i++) {
-      tmp = ans[i].split("\\");
+    for (i = 1; i < sp.length; i++) {
+      tmp = sp[i].split("\\");
       ans += expand(tmp[0]);
       ans += tmp[1];
     }
+    console.log(ans);
 
     var answer = {
       text: "*" + ans + "*",
