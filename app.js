@@ -59,11 +59,15 @@ app.post('/corrupt', (req, res) => {
 
 function getUserInfo(userID) {
   var url = `https://slack.com/api/users.info?token=${token}&user=${userID}`;
-  console.log(`URL :::: ${url}`);
 
-  fetch(prefix + url)
+  var http = require('http');
+  let json;
+  http.get(url, (res) => {
+    console.log(res);
+  }
+
+  fetch(url)
     .then((res) => {
-      console.log(res);
       res.json();
     })
     .then((json) => {
