@@ -32,11 +32,17 @@ app.post('/corrupt', (req, res) => {
     ]
   };
 
-  fetch(req.body["response_url"], { method: "POST", headers: { "Content-Type": 
-    "application/json" }, body: JSON.stringify(answer) })
+  var response = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(answer)
+  };
+
+  fetch(req.body["response_url"], response)
     .then((res) => {
       console.log("Code: " + res.json().statusCode);
-    });
+    })
+    .catch((err) => console.err(err));
 });
 
 app.listen(process.env.PORT, () => { console.log("Server started") });
