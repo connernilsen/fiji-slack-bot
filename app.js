@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const zalgo = require('zalgo-js');
 const fetch = require('node-fetch');
+const http = require('http');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -57,8 +58,8 @@ app.post('/corrupt', (req, res) => {
 });
 
 function getUserInfo(userID) {
-  var prefix = "https://slack.com/api/users.info";
-  var url = `?token=${token}&user=${userID}`;
+  var url = `https://slack.com/api/users.info?token=${token}&user=${userID}`;
+  console.log(`URL :::: ${url}`);
 
   fetch(prefix + url)
     .then((res) => {
