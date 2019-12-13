@@ -18,13 +18,13 @@ app.post('/', (req, res) => {
 });
 
 app.post('/corrupt', (req, res) => {
-  console.log("Start");
-  console.log(req.body);
+  //console.log(req.body);
   res.send();
-  var user = req.body["event"];
+  var user = req.body["user_id"];
+  console.log("Start");
   console.log(user);
+  getUserInfo(user);
   console.log("end");
-  //getUserInfo(user);
 
   var text = req.body["text"];
   var intensity = 0.3;
