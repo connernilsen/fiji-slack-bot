@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const zalgo = require('zalgo-js');
 app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 app.get('/', (req, res) => {
   console.log("Request received" + req.body);
