@@ -33,7 +33,7 @@ app.post('/corrupt', (req, res) => {
   };
 
   fetch(req.body["response_url"], { method: "POST", headers: { "Content-Type": 
-    "application/json", body: answer } })
+    "application/json" }, body: JSON.stringify(answer) })
     .then((res) => {
       console.log("Code: " + res.json().statusCode);
     });
