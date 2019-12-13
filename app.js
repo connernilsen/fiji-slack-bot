@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const zalgo = require('zalgo-js');
 const fetch = require('node-fetch');
-const http = require('http');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -22,10 +21,8 @@ app.post('/corrupt', (req, res) => {
   //console.log(req.body);
   res.send();
   var user = req.body["user_id"];
-  console.log("Start");
-  console.log(user);
-  getUserInfo(user);
-  console.log("end");
+  var userInfo = getUserInfo(user);
+  console.log(userInfo);
 
   var text = req.body["text"];
   var intensity = 0.3;
@@ -60,20 +57,9 @@ app.post('/corrupt', (req, res) => {
 function getUserInfo(userID) {
   var url = `https://slack.com/api/users.info?token=${token}&user=${userID}`;
 
-  var http = require('http');
   let json;
-  http.get(url, (res) => {
-    console.log(res);
-  });
-
   fetch(url)
-    .then((res) => {
-      res.json();
-    })
-    .then((json) => {
-      console.log(json);
-      return json;
-    })
+    .then((res) => res.json())
     .catch((err) => console.err(err));
 }
 
