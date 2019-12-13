@@ -258,7 +258,6 @@ function getUserInfo(userID, func) {
 // randomly add reacts to recent post
 function addMultipleReacts(channel, timestamp) {
   // set up urls
-  var reactAdd = "https://slack.com/api/reactions.add";
   var emojiList = `https://slack.com/api/emoji.list?token=${token}`;
 
   // get list of custom emojis and pass them to handler
@@ -282,6 +281,7 @@ function addMultipleReacts(channel, timestamp) {
 
 // add a single react
 function addReact(channel, timestamp, emoji) {
+  var reactAdd = "https://slack.com/api/reactions.add";
   // create body
   var body = {
     channel: channel,
