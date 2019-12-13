@@ -23,6 +23,7 @@ app.post('/corrupt', (req, res) => {
   var user = req.body["user_id"];
 
   getUserInfo(user, (userJson) => {
+    console.log(userJson);
     var text = req.body["text"];
     var intensity = 0.3;
     if (text.length > 1 && !isNaN(parseInt(text.charAt(0)))) {
@@ -64,7 +65,7 @@ function getUserInfo(userID, func) {
   fetch(url)
     .then((res) => json = res.json())
     .then((json) => func(json))
-    .catch((err) => console.err(err));
+    .catch((err) => console.log(err));
 }
 
 app.listen(process.env.PORT, () => { console.log("Server started") });
