@@ -64,7 +64,7 @@ function getUserInfo(userID) {
   let json;
   http.get(url, (res) => {
     console.log(res);
-  }
+  });
 
   fetch(url)
     .then((res) => {
