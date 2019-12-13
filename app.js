@@ -22,7 +22,7 @@ app.post('/corrupt', (req, res) => {
   res.send();
   var user = req.body["user_id"];
 
-  var userInfo = getUserInfo(user, (userJson) => {
+  getUserInfo(user, (userJson) => {
     var text = req.body["text"];
     var intensity = 0.3;
     if (text.length > 1 && !isNaN(parseInt(text.charAt(0)))) {
@@ -37,10 +37,10 @@ app.post('/corrupt', (req, res) => {
       "icon_url": userJson["user"]["profile"]["image_24"],
       username: userJson["user"]["name"]
     };
-    
+
     postAsUser(answer);
-  );
   });
+});
 
 function post(res) {
 
