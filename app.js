@@ -32,7 +32,13 @@ app.post('/corrupt', (req, res) => {
     ]
   };
 
-  axios.post(req["response_url"], answer);
+  axios.post(req["response_url"], answer)
+    .then((res) => {
+      console.log("Code: " + res.statusCode);
+    })
+    .catch((error) => {
+      console.error(error);
+    }
 });
 
 app.listen(process.env.PORT, () => { console.log("Server started") });
