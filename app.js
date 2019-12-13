@@ -226,6 +226,7 @@ function post(res, hook = null) {
   fetch("https://slack.com/api/chat.postMessage", response)
     .then((res) => res.json())
     .then((json) => {
+      console.log(json);
       if (hook != null) {
         hook(json["channel"], json["ts"]);
       }
