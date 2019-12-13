@@ -18,21 +18,21 @@ app.post('/corrupt', (req, res) => {
   console.log(req.body);
   console.log(zalgo.summon()(req.body["text"]));
 
-  var answer = { 
-    blocks: [ 
-      {
-        type: "section",  
-        text: {
-          response_type: "in_channel",
-          type: "mrkdwn",
-          text: "*" + zalgo.summon()(req.body["text"]) + "*"
-        }
-      }
-    ]
-  };
-
-  res.type("application/json");
-  res.send(answer);
+//  var answer = { 
+//    blocks: [ 
+//      {
+//        type: "section",  
+//        text: {
+//          response_type: "in_channel",
+//          type: "mrkdwn",
+//          text: "*" + zalgo.summon()(req.body["text"]) + "*"
+//        }
+//      }
+//    ]
+//  };
+//
+//  res.type("application/json");
+//  res.send(answer);
 });
 
 app.listen(process.env.PORT, () => { console.log("Server started") });
