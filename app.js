@@ -57,10 +57,8 @@ function getUserInfo(userID) {
 
   let json;
   fetch(url)
-    .then((res) => res.json())
-    .then((json) => console.log(json))
+    .then((res) => json = res.json())
     .catch((err) => console.err(err));
-  console.log("1! " + json);
 
   return json;
 }
