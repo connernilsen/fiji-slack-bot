@@ -18,5 +18,5 @@ app.post('/corrput', (req, res) => {
   res.send(zalgo(req.body));
 });
 
-//app.listen(process.env.PORT, () => { console.log("Server started") });
-app.listen(8081, () => { console.log("Server started") });
+app.listen(process.env.PORT, () => { console.log("Server started") });
+//app.listen(8081, () => { console.log("Server started") });
