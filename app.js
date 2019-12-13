@@ -20,6 +20,7 @@ app.post('/corrupt', (req, res) => {
   res.send();
 
   var text = req.body["text"];
+  console.log(text);
   var intensity = 0.8;
   if (text.length > 1 && !isNaN(parseInt(text.charAt(0)))) {
     intensity = parseInt(text.charAt(0)) / 10;
