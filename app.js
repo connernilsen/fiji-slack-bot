@@ -14,13 +14,32 @@ app.use(express.urlencoded({extended: true}));
 // default page
 app.get('/', (req, res) => {
   console.log("Request received" + req.body);
-  res.send("Success");
+  res.send();
 });
 
-// initialize slack bot 
+// handle app events
 app.post('/', (req, res) => {
   console.log(req.body);
-  res.send(req.body["challenge"]);
+
+  res.send();
+
+  if (req.body.event.type === "app_mention") {
+    var text = req.body.event.text;
+
+    var res = {
+      text: "fuck you",
+      channel: req.body["channel_id"]
+    }
+
+    post(res);
+
+    setTimeout(() => {
+      res = {
+        text: "jk ily bby ;)"
+        channel: req.body["channel_id"]
+      }
+      post(res);
+    }, 2000);
 });
 
 // corrupt function
