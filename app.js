@@ -23,7 +23,6 @@ app.post('/corrupt', (req, res) => {
   var user = req.body["user_id"];
 
   getUserInfo(user, (userJson) => {
-    console.log(userJson);
     var text = req.body["text"];
     var intensity = 0.3;
     if (text.length > 1 && !isNaN(parseInt(text.charAt(0)))) {
@@ -39,7 +38,7 @@ app.post('/corrupt', (req, res) => {
       username: userJson["user"]["name"]
     };
 
-    postAsUser(answer);
+    post(answer);
   });
 });
 
