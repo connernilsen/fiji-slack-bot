@@ -20,20 +20,19 @@ app.get('/', (req, res) => {
 
 // handle app events
 app.post('/', (req, res) => {
-  console.log(req.body);
   res.send();
 
   if (req.body.event.type === "app_mention") {
     var text = req.body.event.text;
-    console.log(text);
 
     if (!text.includes(my_id)) {
       return;
     }
 
+    console.log("HERE");
     var res = {
       text: "fuck you",
-      channel: req.body["channel"]
+      channel: req.body["event"]["channel"]
     }
     post(res);
 
