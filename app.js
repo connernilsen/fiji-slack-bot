@@ -7,7 +7,9 @@ app.get('/', (req, res) => {
 });
 
 app.post('/', (req, res) => {
+  console.log("");
   console.log(req.body);
+  console.log("");
   res.send("Success");
 });
 
