@@ -16,8 +16,8 @@ app.post('/', (req, res) => {
 });
 
 app.post('/corrupt', (req, res) => {
-  console.log(req.body);
-  res.send();
+  //console.log(req.body);
+//  res.send();
 
   var text = req.body["text"];
   var intensity = 0.3;
@@ -32,18 +32,19 @@ app.post('/corrupt', (req, res) => {
     text: "*" + zalgo.summon({intensity: intensity})(text) + "*",
     "as_user": true
   };
+  res.send(answer);
 
-  var response = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(answer)
-  };
-
-  fetch(req.body["response_url"], response)
-    .then((res) => {
-      console.log("Code: " + res.json().statusCode);
-    })
-    .catch((err) => console.err(err));
+//  var response = {
+//    method: "POST",
+//    headers: { "Content-Type": "application/json" },
+//    body: JSON.stringify(answer)
+//  };
+//
+//  fetch(req.body["response_url"], response)
+//    .then((res) => {
+//      console.log("Code: " + res.json().statusCode);
+//    })
+//    .catch((err) => console.err(err));
 });
 
 app.listen(process.env.PORT, () => { console.log("Server started") });
