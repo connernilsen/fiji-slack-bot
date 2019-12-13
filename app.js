@@ -35,7 +35,7 @@ app.post('/', (req, res) => {
 
     setTimeout(() => {
       res = {
-        text: "jk ily bby ;)"
+        text: "jk ily bby ;)",
         channel: req.body["channel_id"]
       }
       post(res);
