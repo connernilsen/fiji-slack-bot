@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
 
-app.get('/message', (req, res) => {
-  console.log("Request received" + req);
+app.get('/', (req, res) => {
+  console.log("Request received" + req.toString());
   res.send("Success");
 });
 
