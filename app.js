@@ -28,16 +28,13 @@ app.post('/', (req, res) => {
 
     var res = {
       text: "fuck you",
-      channel: req.body["channel_id"]
+      channel: req.body["channel"]
     }
 
     post(res);
 
     setTimeout(() => {
-      res = {
-        text: "jk ily bby ;)",
-        channel: req.body["channel_id"]
-      }
+      res["text"] = "jk ily bby ;)",
       post(res);
     }, 2000);
   }
