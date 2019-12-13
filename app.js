@@ -16,7 +16,7 @@ app.post('/', (req, res) => {
 });
 
 app.post('/corrupt', (req, res) => {
-  //console.log(req.body);
+  console.log(req.body);
   res.send();
 
   var text = req.body["text"];
