@@ -36,7 +36,7 @@ app.post('/', (req, res) => {
     var text = req.body.event.text;
 
     // continue only if bot is mentioned
-    if (!(text.includes(my_id) && !dm)) {
+    if (!text.includes(my_id) && !dm) {
       return;
     }
     console.log(text);
