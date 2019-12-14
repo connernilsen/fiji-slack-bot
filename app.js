@@ -26,7 +26,8 @@ app.post('/', (req, res) => {
   var treatAsMention = false;
 
   // respond to direct message
-  if (req.body.event.type === "message") {
+  if (req.body.event.type === "message" 
+    && req.body.event.subtype != "bot_message") {
     treatAsMention = true;
     dm = true;
   }
@@ -249,7 +250,6 @@ function post(res, hook = null) {
   fetch("https://slack.com/api/chat.postMessage", response)
     .then((res) => res.json())
     .then((json) => {
-      console.log(json);
       if (hook != null) {
         hook(json["channel"], json["ts"]);
       }
