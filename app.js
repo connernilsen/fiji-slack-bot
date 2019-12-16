@@ -3,39 +3,70 @@ const app = express();
 const zalgo = require('zalgo-js');
 const fetch = require('node-fetch');
 const dotenv = require('dotenv');
+const mongoDBClient = require('mongodb').MongoClient;
 
 // initialize .env and middleware
 dotenv.config();
 const token = process.env.TOKEN;
 const port = process.env.PORT;
 const my_id = process.env.BOTID;
+const dbConnectionString = process.env.DBCONNECTION;
+const client = new MongoClient(dbConnectionString, { useNewUrlParser: true });
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+// initialize db callback handler
+const mongo = (dbFunc) => {
+  console.log("DB operation performed");
+  client.connect((err, db) {
+    if (err) {
+      console.log(err);
+    }
+    dbFunc(db.db('slack'));
+    db.close();
+  });
+};
+
 // default page
 app.get('/', (req, res) => {
-  console.log("Request received" + req.body);
-  res.send();
+  console.log("root GET request received");
+  res.send("FIJI Slack Bot Home");
 });
 
 // handle app events
 app.post('/', (req, res) => {
+  console.log("root POST request received"); 
   res.send();
 
+  var channel = req.body["event"]["channel"];
+  var user = req.body["user_id"];
   var dm = false;
   var treatAsMention = false;
 
   // respond to direct message
   if (req.body.event.type === "message" 
     && req.body.event.subtype != "bot_message") {
+    console.log(`message received by ${user} in ${channel}`);
     treatAsMention = true;
     dm = true;
+
+    mongo((col) => {
+      col.find({ 'userID': user }).toArray((err, req) => {
+        if (err != null) {
+          console.log("Error with retreiving records");
+          return;
+        }
+
+        console.log(req);
+      });
+    });
   }
 
   // respond to app mention
   if (req.body.event.type === "app_mention" || treatAsMention) {
     var text = req.body.event.text;
 
+    console.log(`bot mention by ${user} in ${channel}`);
     // continue only if bot is mentioned
     if (!text.includes(my_id) && !dm) {
       return;
@@ -45,7 +76,7 @@ app.post('/', (req, res) => {
     // create and send response
     var res = {
       text: "fuck you",
-      channel: req.body["event"]["channel"]
+      channel: channel
     }
     post(res);
 
@@ -73,6 +104,7 @@ app.post('/corrupt', (req, res) => {
   getUserInfo(user, (userJson) => {
     // set original text and intensity
     var text = req.body["text"];
+  console.log(`corrupt request received from ${user} for ${text}`);
     var intensity = 0.3;
 
     // interpret intensity if given
@@ -123,7 +155,8 @@ app.post('/space', (req, res) => {
   // get calling user's info and send response
   getUserInfo(user, (userJson) => {
     var text = req.body["text"].trim();
-    //
+    console.log(`space request received from ${user} for ${text}`);
+
     // don't run if empty
     if (text.length == 0) {
       return;
@@ -161,6 +194,7 @@ app.post("/vspace", (req, res) => {
   // get calling user's info and send response
   getUserInfo(user, (userJson) => {
     var text = req.body["text"].trim();
+    console.log(`vspace request received from ${user} for ${text}`);
 
     // don't run if empty
     if (text.length == 0) {
