@@ -26,4 +26,6 @@ A bot for the Northeastern FIJI Slack Channel
 - [ ] Send and react :crackhead: every time tonina says something
 - [ ] Send and react :gunna: every time blanc says something
 - [ ] Add db to hold and handle above reactions
+- [ ] Make bot do 'tell [person] ...'
+- [ ] Enable thread mentions and responses
 - [ ] Parse sent messages 
