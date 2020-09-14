@@ -21,7 +21,7 @@ A bot for the Northeastern FIJI Slack Channel
 - [x] Respond to mentions
   - Must set BOTID environment variable
 - [ ] Send and react :pk-fire: every time pk says something
-- [ ] Send and react :shut-the-fuck-up-boomer: every time burman says something
+- [ ] Send and react :shut-up-boomer: every time burman says something
 - [ ] Send and react :php-explosion: every time php is mentioned
 - [ ] Send and react :crackhead: every time tonina says something
 - [ ] Send and react :gunna: every time blanc says something
